@@ -5,12 +5,12 @@
 Pipeline for mining phages/viruses and bacteria from the Human Gut.
 
 # Installation
-We understand the complexity of having a pipeline and what it means for the installation. That's why we work with containers. the installation as simple as download a big file using `wget` (or your favorite command).
+We understand the complexity of having a pipeline and what it means for the installation. That's why we work with containers. the installation as simple as download a big file.
 ### Gutbusters bacteria
-```wget -O gutbustersB_v2.sif https://datacloud.helsinki.fi/index.php/s/4SX7wmZBttpnWRg/download```
+```https://datacloud.helsinki.fi/index.php/s/4SX7wmZBttpnWRg```
 
 ### Gutbusters viruses (pro/phages, viruses)
-```wget -O gutbustersV_v1.sif https://datacloud.helsinki.fi/index.php/s/yAYN7HEHnSTk93n/download```
+```https://datacloud.helsinki.fi/index.php/s/JfFByXAwgYbBkQ9```
 
 # Usage
 In case of phages/viruses, the input is only the metagenome assembly.
