@@ -1,0 +1,67 @@
+panel	block	n_feat	collection	value	err	kind	lo	hi	note
+A_leave_one_out	geNomad	6	CHGV	-0.0006300630620331704	0.00017092677474273617	delta_refit			
+A_leave_one_out	geNomad	6	curated	-0.0011665691362306996	0.000289097946716536	delta_refit			
+A_leave_one_out	geNomad	6	Hannigan	-0.007488079719634166	0.0007858133147282486	delta_refit			
+A_leave_one_out	geNomad	6	Shkoporov	-0.000309268513340788	0.00023259537591179056	delta_refit			
+A_leave_one_out	MetaPhaPred	1	CHGV	7.499333180926993e-05	0.00015364862591840995	delta_refit			
+A_leave_one_out	MetaPhaPred	1	curated	-0.0007206357605035185	0.00013453843153048056	delta_refit			
+A_leave_one_out	MetaPhaPred	1	Hannigan	-0.007817584244694475	0.0014858935469321461	delta_refit			
+A_leave_one_out	MetaPhaPred	1	Shkoporov	-0.0003252745642534638	0.0001368117165652692	delta_refit			
+A_leave_one_out	contrast	4	CHGV	-0.0012503334095411711	0.0001974413767826359	delta_refit			
+A_leave_one_out	contrast	4	curated	-0.0021196357495462115	0.000242815897891639	delta_refit			
+A_leave_one_out	contrast	4	Hannigan	0.012112386278259946	0.0004829389446674526	delta_refit			
+A_leave_one_out	contrast	4	Shkoporov	-0.002377493666616881	0.00014090867090409744	delta_refit			
+A_leave_one_out	gene census	3	CHGV	4.239064168576334e-07	0.00021966627351145131	delta_refit			
+A_leave_one_out	gene census	3	curated	-0.00039260032939536504	0.0001659707979241069	delta_refit			
+A_leave_one_out	gene census	3	Hannigan	-0.0006301363272012139	0.0014620063818496579	delta_refit			
+A_leave_one_out	gene census	3	Shkoporov	-4.85781099939242e-05	0.00015933749628408437	delta_refit			
+A_leave_one_out	km4	136	CHGV	-0.010419605433622747	0.00018690749086389686	delta_refit			
+A_leave_one_out	km4	136	curated	0.0013867322064521348	0.0002858001871974688	delta_refit			
+A_leave_one_out	km4	136	Hannigan	-0.07053362330888935	0.0006597264224115761	delta_refit			
+A_leave_one_out	km4	136	Shkoporov	-0.005478037594066176	0.0001562106930491094	delta_refit			
+A_leave_one_out	CheckV	8	CHGV	-0.018435385230909818	0.0002316459417533699	delta_refit			
+A_leave_one_out	CheckV	8	curated	-0.000779965385177328	0.00014144569158843216	delta_refit			
+A_leave_one_out	CheckV	8	Hannigan	0.025248648500288295	0.00039720908393336865	delta_refit			
+A_leave_one_out	CheckV	8	Shkoporov	-0.011764859510554615	0.00012406044174435963	delta_refit			
+B_block_only	geNomad	6	CHGV	0.7724783521947874	0.00022071602359774255	absolute_auc			
+B_block_only	geNomad	6	curated	0.8812589747051046	0.0003313274125515292	absolute_auc			
+B_block_only	geNomad	6	Hannigan	0.5743333521822406	0.0005626616822398538	absolute_auc			
+B_block_only	geNomad	6	Shkoporov	0.8279061161023421	0.0002924479322303518	absolute_auc			
+B_block_only	MetaPhaPred	1	CHGV	0.7846281912056088	2.3329528924733967e-06	absolute_auc			
+B_block_only	MetaPhaPred	1	curated	0.9287003810778606	0.0	absolute_auc			
+B_block_only	MetaPhaPred	1	Hannigan	0.5974671408985572	0.0	absolute_auc			
+B_block_only	MetaPhaPred	1	Shkoporov	0.8471212772005418	0.0	absolute_auc			
+B_block_only	contrast	4	CHGV	0.8321179507696997	0.00019846242319797343	absolute_auc			
+B_block_only	contrast	4	curated	0.9700833765643179	0.00010546789650450038	absolute_auc			
+B_block_only	contrast	4	Hannigan	0.5866082276141119	0.0004451731537527309	absolute_auc			
+B_block_only	contrast	4	Shkoporov	0.8899226160404027	0.00011834843596335821	absolute_auc			
+B_block_only	gene census	3	CHGV	0.7557718097469898	0.0004173190253940672	absolute_auc			
+B_block_only	gene census	3	curated	0.8696112348387728	0.0003219248557128745	absolute_auc			
+B_block_only	gene census	3	Hannigan	0.5843190981095537	0.0005106147555246001	absolute_auc			
+B_block_only	gene census	3	Shkoporov	0.8039783426180548	0.00039490962191222786	absolute_auc			
+B_block_only	km4	136	CHGV	0.8621566358024692	0.0003469122087648205	absolute_auc			
+B_block_only	km4	136	curated	0.7024508394597854	0.0022425920681101914	absolute_auc			
+B_block_only	km4	136	Hannigan	0.7143390663772532	0.0018121251983171682	absolute_auc			
+B_block_only	km4	136	Shkoporov	0.8455996042658446	0.0009677126686227516	absolute_auc			
+B_block_only	CheckV	8	CHGV	0.9335865674058832	6.472322453410646e-05	absolute_auc			
+B_block_only	CheckV	8	curated	0.9750912008302128	0.00012889965389006273	absolute_auc			
+B_block_only	CheckV	8	Hannigan	0.5799726475902499	5.8673397589573175e-05	absolute_auc			
+B_block_only	CheckV	8	Shkoporov	0.956998211006865	6.302600963535887e-05	absolute_auc			
+C_frozen	geNomad	6	curated			mandatory			MANDATORY (gn_virus,gn_chr,gn_plasmid): contig DROPPED, not imputed
+C_frozen	MetaPhaPred	1	curated			mandatory			MANDATORY (mpp): contig DROPPED, not imputed
+C_frozen	contrast	4	curated	-0.004454636226789745		delta_frozen	-0.008529758541915674	-0.0012017716399740951	
+C_frozen	gene census	3	curated	-0.0001762496580383725		delta_frozen	-0.0005407581680326983	0.00012247289846742949	
+C_frozen	km4	136	curated	0.0021329093759282075		delta_frozen	0.001085912327834415	0.0033614801070398627	
+C_frozen	CheckV	8	curated	-0.002261517835901587		delta_frozen	-0.004214323708913706	-6.932500199066762e-05	
+C_frozen	geNomad	6	Hannigan			mandatory			MANDATORY (gn_virus,gn_chr,gn_plasmid): contig DROPPED, not imputed
+C_frozen	MetaPhaPred	1	Hannigan			mandatory			MANDATORY (mpp): contig DROPPED, not imputed
+C_frozen	contrast	4	Hannigan	0.004911293933334783		delta_frozen	0.002259948761706226	0.007887704260442973	
+C_frozen	gene census	3	Hannigan	-6.769306135088427e-05		delta_frozen	-0.002007491151140822	0.0018411897000925625	
+C_frozen	km4	136	Hannigan	-0.057186365864899356		delta_frozen	-0.07548821477434244	-0.032733610945865466	
+C_frozen	CheckV	8	Hannigan	0.05097983890998723		delta_frozen	0.024798380608073444	0.07545668825108212	
+C_frozen	geNomad	6	Shkoporov			mandatory			MANDATORY (gn_virus,gn_chr,gn_plasmid): contig DROPPED, not imputed
+C_frozen	MetaPhaPred	1	Shkoporov			mandatory			MANDATORY (mpp): contig DROPPED, not imputed
+C_frozen	contrast	4	Shkoporov	-0.0038963210830495593		delta_frozen	-0.005550913242971994	-0.0026411215223337866	
+C_frozen	gene census	3	Shkoporov	-0.000815058675647743		delta_frozen	-0.0013315925343985152	-0.00029939369858119627	
+C_frozen	km4	136	Shkoporov	-0.004958877245193394		delta_frozen	-0.005993300709977625	-0.0038844651296800928	
+C_frozen	CheckV	8	Shkoporov	-0.01951987560181618		delta_frozen	-0.02364234945361971	-0.016140576568479646	

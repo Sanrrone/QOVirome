@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Sandro Valenzuela
+Copyright (c) 2026 Sandro Valenzuela-Diaz
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+NOTE ON BUNDLED THIRD-PARTY SOFTWARE
+
+The Apptainer image built from Apptainer.selfcontained.def bundles third-party
+tools and reference databases, each of which is distributed under its own
+licence and retains it. This MIT licence applies to the pipeline code in this
+repository only, not to the bundled components. Users redistributing the built
+image should review the licences of CheckV, geNomad, MetaPhaPred,
+DeepVirFinder, Kraken2, MMseqs2, HMMER/pyhmmer, seqkit, the PHROGs database,
+BFVD, the AlphaFold DB Swiss-Prot subset, and the HRGM2 catalogue.

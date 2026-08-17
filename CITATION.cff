@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: "QOV: virus and prophage identification in human gut metagenome assemblies"
+message: "If you use this software, please cite the accompanying manuscript."
+type: software
+authors:
+  - family-names: Valenzuela-Diaz
+    given-names: Sandro
+    email: sandrolvalenzuelad@gmail.com
+repository-code: "https://github.com/questomics/QOVirome"
+url: "https://questomics.app"
+abstract: >-
+  QOV identifies viral and prophage sequences in human gut metagenome assemblies. A permissive
+  union of detection tools gathers candidate sequence, and a single supervised model over 176
+  features - combining measured evidence (gene census, protein profile hits, viral-versus-cellular
+  homology contrast, marker scores) with learned prediction (neural composition models and raw
+  tetranucleotide frequencies) - decides admission. The pipeline is distributed as one
+  self-contained Apptainer image with every database baked in.
+keywords:
+  - virome
+  - bacteriophage
+  - prophage
+  - metagenomics
+  - human gut microbiome
+  - machine learning
+license: MIT
+version: "1.0.0"
+date-released: "2026-08-12"

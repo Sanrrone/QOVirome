@@ -1,0 +1,7 @@
+ranker	auc_hq_vs_common	hq_lo	hq_hi	auc_vlponly_vs_common	vo_lo	vo_hi	n_common_neg	n_hq_pos	n_vlp_only
+QOV	0.9780	0.9733	0.9816	0.6523	0.6150	0.7072	3945	248	1831
+CheckV viral fraction	0.9396	0.9200	0.9521	0.5420	0.5176	0.6007	3945	248	1831
+Viral-vs-cellular contrast	0.9349	0.8895	0.9638	0.5739	0.5528	0.6048	3945	248	1831
+MetaPhaPred	0.9234	0.9025	0.9455	0.5782	0.5358	0.6755	3945	248	1831
+geNomad (virus score)	0.8596	0.8057	0.9022	0.5125	0.5026	0.5349	3945	248	1831
+PHROGs best bitscore	0.5911	0.5554	0.6403	0.5288	0.5130	0.5431	3945	248	1831

@@ -1,0 +1,5 @@
+tool	detected	n_inserts	rate	err_p25	err_median	err_p75	err_max	pristine_calls	pristine_mb	pristine_hosts	calls_per_mb	sec_per_genome	skipped_hosts
+CheckV	51	60	0.85	241	652	3656	80184	24	69.2	20	0.3468	242	
+VIBRANT	59	60	0.9833	1076	3960	11442	77631	42	69.2	20	0.6069	514	
+PhageBoost	33	60	0.55	5739	8337	17184	44705	226	66.31	19	3.4084	21	NZ_CP176630.1
+PhiSpy	13	60	0.2167	14912	21005	24823	33086	69	69.2	20	0.9971	94	

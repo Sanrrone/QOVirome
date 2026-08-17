@@ -1,0 +1,15 @@
+key	value
+n_fragments	4259
+n_viral	398
+n_hosts	20
+n_phages	59
+prevalence_benchmark	0.0934
+prevalence_natural	0.0401
+join_coverage_pct	100.0
+compound_excision_ids	28
+phages_with_fragment	59
+perphage_cut	0.7850
+perphage_mean_detection	0.9932
+perphage_sd	0.0365
+phages_fully_missed	0
+phages_fully_detected	57

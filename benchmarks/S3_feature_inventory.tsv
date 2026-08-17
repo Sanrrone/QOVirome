@@ -1,0 +1,159 @@
+index	feature	block	block_display	subblock	producer	kind	mandatory	frozen_median
+0	gn_virus	geNomad	geNomad scores and markers	classifier scores	geNomad	measured + learned	yes	
+1	gn_chr	geNomad	geNomad scores and markers	classifier scores	geNomad	measured + learned	yes	
+2	gn_plasmid	geNomad	geNomad scores and markers	classifier scores	geNomad	measured + learned	yes	
+3	mpp	MetaPhaPred	MetaPhaPred		MetaPhaPred	learned	yes	
+4	n_uscg	geNomad	geNomad scores and markers	marker counts	geNomad	measured	no	0
+5	n_virus_hallmarks	geNomad	geNomad scores and markers	marker counts	geNomad	measured	no	0
+6	marker_enrichment_v	geNomad	geNomad scores and markers	marker counts	geNomad	measured	no	0
+7	vc_mean_delta	contrast	Viral-vs-cellular bitscore contrast		geNomad (prodigal-gv) gene calls + MMseqs2 vs BFVD / Swiss-Prot	measured	no	-45.3333
+8	vc_delta_p90	contrast	Viral-vs-cellular bitscore contrast		geNomad (prodigal-gv) gene calls + MMseqs2 vs BFVD / Swiss-Prot	measured	no	0
+9	vc_delta_max	contrast	Viral-vs-cellular bitscore contrast		geNomad (prodigal-gv) gene calls + MMseqs2 vs BFVD / Swiss-Prot	measured	no	0
+10	vc_frac	contrast	Viral-vs-cellular bitscore contrast		geNomad (prodigal-gv) gene calls + MMseqs2 vs BFVD / Swiss-Prot	measured	no	0
+11	dark_frac	gene census	Gene census		geNomad (prodigal-gv) gene calls + MMseqs2 vs BFVD / Swiss-Prot	measured	no	0.272727
+12	mean_bits_v	gene census	Gene census		geNomad (prodigal-gv) gene calls + MMseqs2 vs BFVD / Swiss-Prot	measured	no	23.3333
+13	coding_density	gene census	Gene census		geNomad (prodigal-gv) gene calls + MMseqs2 vs BFVD / Swiss-Prot	measured	no	0.910305
+14	km4_AAAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0192481
+15	km4_AAAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0103591
+16	km4_AAAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.013903
+17	km4_AAAT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0146811
+18	km4_AACA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.010157
+19	km4_AACC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00674821
+20	km4_AACG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00705424
+21	km4_AACT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00790123
+22	km4_AAGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0124168
+23	km4_AAGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00913423
+24	km4_AAGG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00810811
+25	km4_AAGT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0084482
+26	km4_AATA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0125392
+27	km4_AATC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0104042
+28	km4_AATG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0105332
+29	km4_AATT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00536414
+30	km4_ACAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00975513
+31	km4_ACAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00498262
+32	km4_ACAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00740552
+33	km4_ACAT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00767888
+34	km4_ACCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00778275
+35	km4_ACCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00397022
+36	km4_ACCG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00694006
+37	km4_ACCT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00597907
+38	km4_ACGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00624783
+39	km4_ACGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0046436
+40	km4_ACGG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00646784
+41	km4_ACGT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00233531
+42	km4_ACTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00410798
+43	km4_ACTC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00458866
+44	km4_ACTG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0067851
+45	km4_AGAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0124442
+46	km4_AGAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00545373
+47	km4_AGAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00570497
+48	km4_AGAT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00904003
+49	km4_AGCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00899004
+50	km4_AGCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00650961
+51	km4_AGCG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00550275
+52	km4_AGCT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0035155
+53	km4_AGGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00784447
+54	km4_AGGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00547883
+55	km4_AGGG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00404606
+56	km4_AGTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00635173
+57	km4_AGTC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00482121
+58	km4_AGTG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00515464
+59	km4_ATAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.01251
+60	km4_ATAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00834539
+61	km4_ATAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00624702
+62	km4_ATAT	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00626591
+63	km4_ATCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0118611
+64	km4_ATCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00791766
+65	km4_ATCG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00715434
+66	km4_ATGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0109306
+67	km4_ATGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00807692
+68	km4_ATGG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00869237
+69	km4_ATTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00944882
+70	km4_ATTC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00998573
+71	km4_ATTG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0102564
+72	km4_CAAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0122006
+73	km4_CAAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00768535
+74	km4_CAAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00794261
+75	km4_CACA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00572391
+76	km4_CACC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00640455
+77	km4_CACG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00434625
+78	km4_CAGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00840226
+79	km4_CAGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00861844
+80	km4_CAGG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00707214
+81	km4_CATA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00817792
+82	km4_CATC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0101276
+83	km4_CATG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00341064
+84	km4_CCAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00753968
+85	km4_CCAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00547945
+86	km4_CCAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00680181
+87	km4_CCCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00497738
+88	km4_CCCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00294144
+89	km4_CCCG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00415408
+90	km4_CCGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00580762
+91	km4_CCGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00544218
+92	km4_CCGG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00379015
+93	km4_CCTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00321647
+94	km4_CCTC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00479329
+95	km4_CGAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00681044
+96	km4_CGAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00408466
+97	km4_CGAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00335153
+98	km4_CGCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00557686
+99	km4_CGCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0048671
+100	km4_CGCG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00112032
+101	km4_CGGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00747253
+102	km4_CGGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00633191
+103	km4_CGTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00501882
+104	km4_CGTC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00498256
+105	km4_CTAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00407407
+106	km4_CTAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00468891
+107	km4_CTAG	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.000454959
+108	km4_CTCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00541928
+109	km4_CTCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00600739
+110	km4_CTGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00800291
+111	km4_CTGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00874528
+112	km4_CTTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00611291
+113	km4_CTTC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0104803
+114	km4_GAAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0142919
+115	km4_GAAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00790514
+116	km4_GACA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00667135
+117	km4_GACC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00444753
+118	km4_GAGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00630418
+119	km4_GAGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00503145
+120	km4_GATA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0102689
+121	km4_GATC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00297816
+122	km4_GCAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00935227
+123	km4_GCAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00519268
+124	km4_GCCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0072774
+125	km4_GCCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0037087
+126	km4_GCGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00462214
+127	km4_GCGC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00176243
+128	km4_GCTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00440705
+129	km4_GGAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.01
+130	km4_GGAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00457721
+131	km4_GGCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00825083
+132	km4_GGCC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00144578
+133	km4_GGGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00524476
+134	km4_GGTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00636631
+135	km4_GTAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00789364
+136	km4_GTAC	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00248679
+137	km4_GTCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00679817
+138	km4_GTGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00632625
+139	km4_GTTA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00599281
+140	km4_TAAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0117621
+141	km4_TACA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00743679
+142	km4_TAGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00483676
+143	km4_TATA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0041958
+144	km4_TCAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0106894
+145	km4_TCCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00874103
+146	km4_TCGA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00254194
+147	km4_TGAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0122608
+148	km4_TGCA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.00416013
+149	km4_TTAA	km4	Tetranucleotide composition		extract_km4.py (in-house)	measured	no	0.0042236
+150	ckv_viral_genes	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	0
+151	ckv_host_genes	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	1
+152	ckv_gene_count	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	4
+153	ckv_viral_frac	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	0.333333
+154	ckv_aai_completeness	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	5.69136
+155	ckv_aai_num_hits	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	3
+156	ckv_aai_id	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	48.6
+157	ckv_aai_af	CheckV	CheckV gene statistics		CheckV 1.1.1	measured	no	45.12

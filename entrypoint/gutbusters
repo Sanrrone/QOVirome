@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage(){ echo "Usage: gutbusters --in contigs.fna [--outdir results] [--threads 4] [--min-len 2000] [--score 0.9] [--prefix busted] [--keeptmp]"; exit 1; }
+
+IN=""
+OUTDIR="results"
+T=4
+MLEN=2000
+PHAGE_SCORE=0.9
+CLEANAFTER=0
+PREFIX="busted"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --in) IN="$2"; shift 2;;
+    --outdir) OUTDIR="$2"; shift 2;;
+    --threads) T="$2"; shift 2;;
+    --min-len) MLEN=$2; shift 2;;
+    --score) PHAGE_SCORE=$2; shift 2;;
+    --prefix) PREFIX=$2; shift 2;;
+    --keeptmp) CLEANAFTER=1; shift;;
+    -h|--help) usage;;
+    *) echo "Unknown arg: $1"; usage;;
+  esac
+done
+[[ -z "$IN" ]] && usage
+[[ -z "$OUTDIR" ]] && usage
+[[ -z "$PREFIX" ]] && PREFIX="busted"
+
+mkdir -p "$OUTDIR" "$OUTDIR/logs" "$OUTDIR/tmp"
+OUTDIR=$(realpath "$OUTDIR")
+
+# Standard env for your scripts
+export GB_IN="$IN"
+export GB_OUTDIR="$OUTDIR"
+export GB_THREADS="$T"
+export GB_MLEN="$MLEN"
+export GB_DB_ROOT="${GUTBUSTERS_DB}"
+export GB_MODELS_ROOT="${GUTBUSTERS_MODELS}"
+export CHECKVDB="${CHECKVDB}"
+export IPHOP_DB=${GB_DB_ROOT}/iphop/Jun_2025_pub_rw
+export GB_SCRIPTS=${GUTBUSTERS_SCRIPTS}
+export GB_HOME=${GUTBUSTERS_HOME}
+export GB_PHS=${PHAGE_SCORE}
+export GB_TMP="$OUTDIR/tmp"
+export GB_PREFIX="$PREFIX"
+
+echo "[Gutbusters] Input: $GB_IN"
+echo "[Gutbusters] Outdir: $GB_OUTDIR"
+echo "[Gutbusters] Threads: $GB_THREADS"
+echo "[Gutbusters] Phage Score: $GB_PHS"
+echo "[Gutbusters] temp: $OUTDIR/tmp"
+
+PIPE_DIR="${GUTBUSTERS_HOME}/pipelines"
+# Stages are named N_name.sh. `find` (unlike a glob) also returns dotfiles, so an in-place
+# backup such as .5_eval.sh.bak-* that kept its +x bit would run as an extra stage and silently
+# overwrite the real stage's output. Require the leading digit.
+mapfile -t STEPS < <(find "$PIPE_DIR" -maxdepth 1 -type f -perm -u+x -name '[0-9]*' | sort -V)
+[[ ${#STEPS[@]} -gt 0 ]] || { echo "No executable steps in $PIPE_DIR"; exit 3; }
+
+# Per-tool progress. The stage is too coarse a unit to report a failure against: 11 of the run's
+# 15 tool invocations live inside 5_eval.sh, so "Step failed: 5_eval.sh" localises a crash to an
+# 80 KB log and no further. Each tool announces itself, and the state file lets a failure here
+# name the tool that was running.
+if [[ -r "${GB_SCRIPTS}/gb_progress.sh" ]]; then
+  # shellcheck source=/dev/null
+  . "${GB_SCRIPTS}/gb_progress.sh"
+  gb_progress_init
+  echo "[Gutbusters] Plan: $(gb_plan_total) tool steps (Kraken2 $( [[ "${GB_KRAKEN:-1}" == "1" ]] && echo enabled || echo disabled ))"
+else
+  gb_progress_where() { echo "unknown (scripts/gb_progress.sh not found)"; }
+  gb_progress_summary() { :; }
+fi
+
+i=1
+for S in "${STEPS[@]}"; do
+  b="$(basename "$S")"
+  echo "[Gutbusters] >>> STEP $i: $b"
+  ( set -x; "$S" ) >"$OUTDIR/logs/${i}_${b}.log" 2>&1 || {
+      rc=$?
+      echo "Step failed: $b (see $OUTDIR/logs/${i}_${b}.log)"
+      # "LAST TOOL STARTED", not "failed during": 4_clean.sh runs no software, so if IT fails the
+      # most recent tool belongs to the previous stage. Naming it as the culprit would be wrong.
+      # The stage is already named on the line above; this adds the tool-level position.
+      echo "[Gutbusters] LAST TOOL STARTED: $(gb_progress_where)"
+      # The tail is the other half of the answer: which tool, and what it said on the way out.
+      # Without it the caller still has to go and open the file to learn anything at all.
+      echo "[Gutbusters] --- last 15 lines of ${i}_${b}.log ---"
+      tail -n 15 "$OUTDIR/logs/${i}_${b}.log" 2>/dev/null | sed 's/^/[Gutbusters] | /'
+      echo "[Gutbusters] --- end of excerpt (exit $rc) ---"
+      exit 10
+  }
+  ((i++))
+done
+
+gb_progress_summary
+
+if [[ "$CLEANAFTER" -eq 0 ]]; then
+	[[ -n "${OUTDIR:-}" ]] || {
+		echo "[ERROR] OUTDIR is empty, refusing to rm -rf" >&2
+	exit 1
+  }
+	# Keep $OUTDIR/logs so run.sh can ship the per-step logs to S3.
+	rm -rf "$OUTDIR/prophage" "$OUTDIR/mag_remain" "$OUTDIR/phage" "$OUTDIR/pullviruses" "$OUTDIR/evaluation" "$OUTDIR/tmp"
+fi
+
+echo "DONE"
+echo "FASTA:    $OUTDIR/${GB_PREFIX}_viruses.fna"
+echo "METADATA: $OUTDIR/${GB_PREFIX}_table.tsv"
+

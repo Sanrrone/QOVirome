@@ -1,0 +1,404 @@
+Bootstrap: docker
+From: debian:bookworm-slim
+
+# =============================================================================
+# SELF-CONTAINED variant of Apptainer.def.
+#
+# Difference from the standard image: the databases AND model weights are BAKED
+# INTO the .sif (via %files, copied from the build host) instead of bind-mounted
+# at runtime. Paths are identical either way -- entrypoint/gutbusters sets
+# GB_DB_ROOT="$GUTBUSTERS_DB" = /opt/gutbusters/db -- so pipelines/ and scripts/
+# are byte-identical between the two images and resolve every DB the same way.
+#
+# Build (on SUN -- see the disk note below):
+#   cd /data/containers/qo-analysis-get-virome
+#   singularity build qo-analysis-get-virome-selfcontained.sif Apptainer.selfcontained.def
+#
+# Run — NO bind, no database staging, no host setup:
+#   apptainer run qo-analysis-get-virome-selfcontained.sif \
+#       --in contigs.fna --outdir results --threads 8 --prefix sample
+#
+# That is the whole point of this variant: hand someone the .sif and it runs. To
+# add the optional predicted-host column, bind the one external DB and %environment
+# switches Kraken2 on by itself:
+#   apptainer run --bind /path/to/kraken2/HRGMv2:/opt/gutbusters/db/kraken2/HRGMv2:ro \
+#       qo-analysis-get-virome-selfcontained.sif --in contigs.fna --outdir results
+#
+# ---------------------------------------------------------------------------
+# ⚠️ KRAKEN2 IS DELIBERATELY *NOT* BAKED. HRGMv2 is 19 GB — more than the rest of
+# the databases put together — and it is the only optional one: it drives the
+# predicted bacterial host column and the k2_bact_frac feature, and with
+# GB_KRAKEN=0 the pipeline still scores and admits normally (k2_bact_frac
+# degrades to its frozen training median exactly like every other optional
+# feature). Baking it would nearly triple the image to buy a column many users
+# do not need, so it stays external and bind-mounted. %post creates the empty
+# mount point /opt/gutbusters/db/kraken2 so the bind has somewhere to land.
+#
+# ⚠️ SIZE AND BUILD HOST. Baked DBs total ~9.9 GB (checkv 6.4G, genomad 2.7G,
+# vcontrast 368M, deepvirfinder 114M, stack4 205M, metaphapred 84M). The PHROGs
+# 1.3 GB .h3m LEFT with the stack158 model on 2026-08-13 -- see the %files note.
+# on top of ~2 GB of software, so the .sif lands near 13 GB and the build wants
+# roughly twice that free in APPTAINER_TMPDIR.
+#   * SUN is the build host (1.4 TB free).
+#   * MARS is tight -- /data/containers is a separate 392 GB mount at 92%, ~31 GB
+#     free as of 2026-08-11. That is around the ~26 GB the build needs, with no
+#     margin. Build on Sun.
+#
+# ⚠️ THIS DEF IS DELIBERATELY AHEAD OF Apptainer.def ON SOFTWARE (2026-08-11).
+# It mirrors the pipeline as it actually runs. Apptainer.def still installs
+# three things the shipped 3-stage pipeline never invokes, and they are NOT
+# reproduced here:
+#   * the `pb` env + PhageBoost pip install + patched calc_features.py + smoke
+#     test -- PhageBoost was dropped 2026-08-10 (96% of its excisions TRUNCATED
+#     already-viral contigs) and is gated off at 1_prophage.sh (GB_PHAGEBOOST=0)
+#   * the `phabox2` env -- PhaMer/PhaBox2 lived in the retired 3_pullphages.sh
+#   * blast=2.15.0 -- the UHGV claimer is gated off (GB_BLAST=0) and its 4.5 GB
+#     database was deleted from both hosts on 2026-08-11
+# Consequence: setting GB_PHAGEBOOST=1 or GB_BLAST=1 fails in THIS image where
+# it would merely find no database in the standard one. Both flags are dead in
+# both images -- their databases no longer exist on Mars or Sun. Bring
+# Apptainer.def in line at its next rebuild and this note can go.
+# =============================================================================
+
+%labels
+	Name Gutbusters (self-contained)
+	Description "Gutbusters: human-gut phage/virome mining from metagenome assemblies (CheckV, geNomad [viral branch only], Kraken2, MetaPhaPred, DeepVirFinder, MMseqs2 viral-vs-cellular contrast, stack158 ExtraTrees admission model over 158 signals). Self-contained except Kraken2 and PHROGs: every database and model weight the shipped pipeline reads is baked in at /opt/gutbusters/db and /opt/gutbusters/genomad_db. Kraken2's 19 GB HRGMv2 stays external — bind it at /opt/gutbusters/db/kraken2/HRGMv2, or run with GB_KRAKEN=0 to skip host prediction. PHROGs is not baked: the admission model reads none of its columns and the pass is off by default (GB_PHROGS=1 re-enables it against a bind-mounted PHROGs DB)."
+
+%help
+	gutbusters --in contigs.fna --outdir results [--threads N] [--min-len 2000] [--score 0.9] [--prefix busted]
+	Outputs: results/<prefix>_viruses.fna and results/<prefix>_table.tsv
+
+	Runs with NO bind and no database staging -- every database is baked in except
+	Kraken2 (HRGMv2, 19 GB), which is optional and detected automatically:
+	  as shipped, zero setup:
+	    apptainer run <image>.sif --in contigs.fna --outdir results
+	  plus the predicted-host column (Kraken2 switches on by itself once bound):
+	    apptainer run --bind /path/to/kraken2/HRGMv2:/opt/gutbusters/db/kraken2/HRGMv2:ro \
+	      <image>.sif --in contigs.fna --outdir results
+	Admission scoring is identical either way -- without Kraken2 you lose only the
+	predicted bacterial host column, and k2_bact_frac falls back to its frozen
+	training median like any other optional feature. Force it either way with
+	--env GB_KRAKEN=1 / --env GB_KRAKEN=0.
+
+%environment
+	export PATH="/opt/micromamba/envs/gutbusters/bin:$PATH"
+	export MAMBA_ROOT_PREFIX=/opt/micromamba
+
+	export GUTBUSTERS_HOME=/opt/gutbusters
+	export GUTBUSTERS_DB=/opt/gutbusters/db
+	export GUTBUSTERS_MODELS=/opt/gutbusters/models
+	export GUTBUSTERS_SCRIPTS=/opt/gutbusters/scripts
+
+	# DB paths — baked into the image (self-contained; no bind). These are the same
+	# in-image paths the bind-mounted variant uses, so nothing downstream differs.
+	export CHECKVDB=/opt/gutbusters/db/checkv_db/checkv-db-v1.5
+	# geNomad's DB is a sibling of the db root in the standard image (it is shared
+	# with qo-analysis-mge rather than duplicated). Baked at the same target here so
+	# the pipelines need no change.
+	export GB_GENOMAD_DB=/opt/gutbusters/genomad_db
+
+	# Kraken2 is the ONE database not baked in, and the pipeline stages default
+	# GB_KRAKEN=1 -- which in this image would mean "run kraken2 against a directory
+	# that is empty unless you bound something over it". Detect instead of assume: the
+	# image runs with zero binds by default, and lights host prediction up by itself
+	# the moment HRGMv2 is bound at the mount point. An explicit GB_KRAKEN always wins,
+	# so `--env GB_KRAKEN=0` still forces it off even with the DB present.
+	if [ -d /opt/gutbusters/db/kraken2/HRGMv2 ] && \
+	   [ -n "$(ls -A /opt/gutbusters/db/kraken2/HRGMv2 2>/dev/null)" ]; then
+		export GB_KRAKEN="${GB_KRAKEN:-1}"
+	else
+		export GB_KRAKEN="${GB_KRAKEN:-0}"
+	fi
+
+	export LANG=C.UTF-8
+	export LC_ALL=C.UTF-8
+
+	# Writable runtime defaults. NEVER point these inside the read-only /opt tree.
+	# The per-stage pipeline scripts override caches into $OUTDIR/tmp; these are
+	# overridable fallbacks.
+	export HOME="${HOME:-/tmp}"
+	export GUTBUSTERS_TMP="${GUTBUSTERS_TMP:-/tmp/gutbusters}"
+	export XDG_CACHE_HOME="${XDG_CACHE_HOME:-/tmp/gutbusters/xdg-cache}"
+	export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-/tmp/gutbusters/xdg-config}"
+	export TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE:-/tmp/gutbusters/hf}"
+	export HF_HOME="${HF_HOME:-/tmp/gutbusters/hf}"
+	export TORCH_HOME="${TORCH_HOME:-/tmp/gutbusters/torch}"
+	export MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/gutbusters/matplotlib}"
+
+%post -c /bin/bash
+	set -euxo pipefail
+	export DEBIAN_FRONTEND=noninteractive
+
+	export MAMBA_NO_BANNER=1
+	export MAMBA_NO_PROGRESS_BARS=1
+	# Retry resilience for flaky/slow conda-forge mirrors: without this the build
+	# aborts on a single slow package ("Operation too slow ... < 30 bytes/sec").
+	export MAMBA_REMOTE_MAX_RETRIES=5
+	export MAMBA_REMOTE_BACKOFF_FACTOR=2
+	export PIP_NO_CACHE_DIR=1
+	export PIP_DISABLE_PIP_VERSION_CHECK=1
+	export PIP_DEFAULT_TIMEOUT=120
+	export PIP_RETRIES=5
+
+	export MAMBA_ROOT_PREFIX=/opt/micromamba
+	export CONDA_PKGS_DIRS=/opt/micromamba/pkgs
+	export TMPDIR=/opt/micromamba/tmp
+	mkdir -p "$MAMBA_ROOT_PREFIX" "$CONDA_PKGS_DIRS" "$TMPDIR" /opt/micromamba/etc
+
+	# Retry wrapper for network steps. micromamba caches already-downloaded
+	# packages under CONDA_PKGS_DIRS, so a re-invocation only re-fetches the
+	# package that stalled — a single slow mirror no longer fails the build.
+	retry() {
+		local n=1 max=5 delay=15
+		until "$@"; do
+			if [ "$n" -ge "$max" ]; then
+				echo "[build] '$*' failed after ${max} attempts" >&2
+				return 1
+			fi
+			echo "[build] '$1' attempt ${n}/${max} failed; retrying in ${delay}s..." >&2
+			sleep "$delay"; n=$((n+1)); delay=$((delay*2))
+		done
+	}
+
+	# ---- base packages (Debian bookworm) ----
+	# seqkit and kraken2 are NOT in Debian repos — they are installed via bioconda
+	# into the `gutbusters` env below (this is the ubuntu->debian "corresponding change").
+	apt-get update
+	apt-get install -y --no-install-recommends \
+		ca-certificates curl wget git unzip bzip2 xz-utils tar gzip \
+		perl gawk sed grep coreutils procps bash locales g++ openssl
+	apt-get clean && rm -rf /var/lib/apt/lists/*
+
+	# Locale: default to C.UTF-8 (always present); also generate en_US.UTF-8 for any
+	# tool that probes it explicitly.
+	sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen || true
+	locale-gen || true
+
+	# ---- micromamba: download the static binary (no local copy shipped) ----
+	retry bash -c 'set -o pipefail; curl -fLs https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj -C /usr/local bin/micromamba'
+	chmod 0755 /usr/local/bin/micromamba
+	export MM="/usr/local/bin/micromamba -r /opt/micromamba --rc-file /opt/micromamba/etc/condarc"
+
+	cat > /opt/micromamba/etc/condarc <<'YAML'
+channels:
+  - conda-forge
+  - bioconda
+channel_priority: strict
+YAML
+
+	# ---- conda envs ----
+	retry $MM create -y -r "${MAMBA_ROOT_PREFIX}" -n gutbusters -c conda-forge -c bioconda python=3.10
+	# CheckV 1.1.1 (was 1.0.3 until 2026-08-11). ⚠️ THE GENE CALLER CHANGED WITH IT: 1.0.3 shelled
+	# out to the `prodigal-gv` BINARY (checkv/utility.py:216, `cmd = "prodigal-gv "`), while 1.1.1
+	# calls the pyrodigal-gv PYTHON LIBRARY in-process (`import pyrodigal_gv`;
+	# `ViralGeneFinder(meta=True, mask=True)`) and no longer checks for any gene-caller executable —
+	# its check_executables() now lists only diamond and hmmsearch. That switch is MEASURED SAFE:
+	# comparing 1.0.3 to 1.1.1 over the same 20,000-contig pool, the 4 census features
+	# (viral_genes/host_genes/gene_count/viral_frac) are BYTE-IDENTICAL — 0.0% of contigs changed,
+	# max |delta| exactly 0 — so the frozen ckv_* inputs are unaffected.
+	#
+	# `prodigal-gv=2.11.0` is pinned even though CheckV 1.1.1 never invokes it, and nothing else in
+	# pipelines/ or scripts/ does either. It is kept ONLY as the rollback path: reverting to
+	# checkv=1.0.3 needs that binary, and it is NOT a dependency of the bioconda checkv package at
+	# 1.1.1 — it only reached the old image transitively. Installing checkv=1.1.1 alone and then
+	# rolling back would leave 1.0.3 with no caller, dying at "Calling genes..." in stages 1 and 5.
+	#
+	# blast is NOT installed here (it is in Apptainer.def): the UHGV claimer is retired and its
+	# database is gone. CheckV does not need it — its own check_executables() wants diamond and
+	# hmmsearch, both of which arrive as bioconda dependencies of the checkv package.
+	#
+	# ⚠️ AND THAT IS PRECISELY WHY `diamond` IS NOW PINNED HERE TOO, at the SAME version as
+	# Apptainer.def. Letting it arrive transitively is what made these two images diverge: with
+	# blast=2.15.0 present the solver picked diamond 2.1.8, without it 2.0.4. CheckV's AAI search
+	# is a diamond search, so the self-contained image and the production worker disagreed on
+	# ckv_aai_completeness / ckv_aai_num_hits / ckv_aai_id / ckv_aai_af -- 4 of the 8 CheckV
+	# features the admission model reads. Caught 2026-08-13 by running both images on the same
+	# 392 contigs: identical model, identical DBs, 39 contigs with different scores.
+	# 2.1.8 is the version production runs, so it is the one both images converge on.
+	retry $MM install -y -n gutbusters -c conda-forge -c bioconda \
+		py-xgboost checkv=1.1.1 prodigal-gv=2.11.0 diamond=2.1.8 seqkit kraken2
+
+	# VirSorter2 REMOVED 2026-08-05 — the `vs2` env, its NumPy/sklearn compatibility shim and
+	# its config-init step are all gone with it. Measured on a real assembly it contributed one
+	# candidate for ~709 s of wall time, and that candidate then failed the admission gate; it is
+	# also absent from the admission feature set, so it could never move a decision. Its 9.8 GB
+	# database was deleted from Mars and Sun on 2026-08-11.
+
+	# ---- remaining envs ----
+	# gnmd: geNomad, isolated because it pins its own torch/mmseqs2 stack. Version
+	# matched to qo-analysis-mge (genomad=1.8.0) so both analyses read one DB build.
+	#
+	# DO NOT "FIX" THIS PIN TO 1.9.8. `genomad --version` prints "geNomad, version 1.9.8" in
+	# BOTH this container and qo-analysis-mge, but that banner is the only source that says so
+	# and there is no 1.9.8 literal anywhere in the installed package. Every authoritative
+	# source says 1.8.0 — conda-meta/genomad-1.8.0-pyhdfd78af_2.json, genomad-1.8.0.dist-info,
+	# genomad/__init__.py's __version__, and importlib.metadata. The banner is upstream noise.
+	# The DB citation row (bio_question_containers.tools) correctly records 1.8.0; changing it
+	# to match the banner would put an unverifiable version in front of researchers.
+	retry $MM create -y -r "${MAMBA_ROOT_PREFIX}" -n gnmd -c conda-forge -c bioconda genomad=1.8.0
+	retry $MM create -y -r "${MAMBA_ROOT_PREFIX}" -n mpp -c conda-forge -c bioconda python=3.8 keras==2.8.0 numpy biopython pandas tensorflow scikit-learn
+	retry $MM create -y -r "${MAMBA_ROOT_PREFIX}" -n dvf -c conda-forge -c bioconda python=3.6 numpy theano=1.0.3 keras=2.2.4 scikit-learn Biopython h5py=2.10.0 mkl-service=2.3.0
+	# pyhmmer scans proteins against the PHROGs .h3m. It used to ride along in the vs2 env; that
+	# env was deleted when VirSorter2 was removed (2026-08-05), which silently took the only copy
+	# of pyhmmer in the image with it. Its own env, so nothing else can drift it.
+	#
+	# DO NOT switch the PHROGs scan to MMseqs2. The Pharokka bundle's phrogs_profile_db was built
+	# with MMseqs2 v18.8cc5c and this image ships 14.7e284; the prefilter appears to succeed and
+	# then the align stage dies with "Alignment died" — a silent format incompatibility, not a
+	# resource limit (reproduced at 15,000 targets, --max-seqs 3000, 24G split memory). The .h3m
+	# in the SAME bundle is HMMER3 binary, whose format is stable across versions.
+	#
+	# Pinned to 0.10.15: the PHROGs features were MEASURED under it, so it is a frozen-coefficient
+	# contract in the same sense as MMseqs2 14.7e284 + `-s 7.5 -e 1e-3 --max-seqs 300`.
+	retry $MM create -y -r "${MAMBA_ROOT_PREFIX}" -n pyhmmer -c conda-forge -c bioconda python=3.10 pyhmmer=0.10.15
+
+	# ---- executables ----
+	# ⚠️ DO NOT chmod the pipeline stages. A stage is RETIRED by removing its +x bit
+	# (2_bactfilter, 3_pullphages, 4_pullviruses since 2026-08-09), and the entrypoint selects
+	# stages with `find -perm -u+x` — so a blanket `chmod +x pipelines/*.sh` resurrects all
+	# three and the image silently runs the old 6-stage pipeline. %files preserves the source
+	# modes, so the host's retirement carries through on its own.
+	#
+	# The bind-mounted image never showed this: run.sh binds the host pipelines/ read-only over
+	# the baked copy (run.sh:313), which masks whatever modes the build left behind. THIS image
+	# is meant to run with no binds, so the baked modes ARE the pipeline.
+	chmod +x /opt/gutbusters/entrypoint/gutbusters
+	ln -sf /opt/gutbusters/entrypoint/gutbusters /usr/local/bin/gutbusters
+	rm -f /etc/profile.d/activate_gutbusters.sh /etc/profile.d/micromamba.sh || true
+
+	# Model weights ARE baked into the image (via %files). Symlink each tool's expected
+	# in-image model path to the baked DB location so the stock tools resolve them with
+	# zero source edits. %files is copied BEFORE %post, so unlike the bind-mounted image
+	# these targets already exist here and the links are never dangling.
+	ln -sfn /opt/gutbusters/db/deepvirfinder/models /opt/gutbusters/tools/DeepVirFinder/models
+	ln -sfn /opt/gutbusters/db/metaphapred/model    /opt/gutbusters/tools/MetaPhaPred/model
+
+	# Mount point for the ONE database that is not baked in. /opt/gutbusters/db is a
+	# read-only squashfs layer once built, so a bind onto a path inside it needs the
+	# directory to already exist -- without this mkdir, binding HRGMv2 fails outright
+	# instead of falling back to anything. Empty and harmless when GB_KRAKEN=0.
+	mkdir -p /opt/gutbusters/db/kraken2
+
+	# Fail the build NOW, not after a long run, if a baked DB is missing or the wrong
+	# shape. This is the whole point of the self-contained variant: there is no runtime
+	# bind check (run.sh's) to catch it later.
+	for d in \
+		/opt/gutbusters/db/checkv_db/checkv-db-v1.5 \
+		/opt/gutbusters/db/deepvirfinder/models \
+		/opt/gutbusters/db/metaphapred/model \
+		/opt/gutbusters/db/stack4 \
+		/opt/gutbusters/db/vcontrast \
+		/opt/gutbusters/genomad_db ; do
+		[ -d "$d" ] || { echo "[build] MISSING baked database: $d" >&2; exit 1; }
+	done
+	# The admission model itself: without it score_stack4.py produces nothing and every
+	# contig fails out of scoring, so its absence must not reach a user.
+	#
+	# ⚠️ THIS MUST NAME THE MODEL 5_eval.sh ACTUALLY LOADS. It is stack158 as of 2026-08-13
+	# (5_eval.sh:791). Asserting the old stack10et would pass on a stack4/ that still carries
+	# it -- which it does, deliberately, for rollback -- and the image would then ship a
+	# pipeline pointing at a model whose presence was never checked.
+	[ -s /opt/gutbusters/db/stack4/stack158_final_model.json ] \
+		|| { echo "[build] MISSING admission model stack158_final_model.json" >&2; exit 1; }
+	grep -q 'stack158_final_model\.json' /opt/gutbusters/pipelines/5_eval.sh \
+		|| { echo "[build] 5_eval.sh does not load stack158 -- def and pipeline disagree" >&2; exit 1; }
+	[ -e /opt/gutbusters/tools/DeepVirFinder/models ] || { echo "[build] DVF model link broken" >&2; exit 1; }
+	[ -e /opt/gutbusters/tools/MetaPhaPred/model ]    || { echo "[build] MPP model link broken" >&2; exit 1; }
+	echo "[build] baked database check OK"
+
+	# Same reasoning for the stages: with no bind, the baked +x bits ARE the pipeline, and a
+	# wrong set fails SILENTLY (the run just does more work and writes different outputs).
+	# Must match the entrypoint's own selector exactly -- `-perm -u+x -name '[0-9]*'`.
+	_active="$(find /opt/gutbusters/pipelines -maxdepth 1 -type f -perm -u+x -name '[0-9]*' -printf '%f\n' | sort -V | tr '\n' ' ')"
+	[ "$_active" = "1_prophage.sh 4_clean.sh 5_eval.sh " ] || {
+		echo "[build] WRONG active stage set: [$_active]" >&2
+		echo "[build] expected exactly [1_prophage.sh 4_clean.sh 5_eval.sh ] -- retired stages must NOT be +x" >&2
+		exit 1; }
+	echo "[build] active stages OK: $_active"
+
+	# ---- cross-env tool wrappers (live on the gutbusters env PATH) ----
+cat >/opt/micromamba/envs/gutbusters/bin/chkv <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+MM="/usr/local/bin/micromamba -r /opt/micromamba --rc-file /opt/micromamba/etc/condarc"
+exec $MM run -n gutbusters checkv "$@"
+EOF
+chmod +x /opt/micromamba/envs/gutbusters/bin/chkv
+
+cat >/opt/micromamba/envs/gutbusters/bin/gnmd <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+MM="/usr/local/bin/micromamba -r /opt/micromamba --rc-file /opt/micromamba/etc/condarc"
+exec $MM run -n gnmd genomad "$@"
+EOF
+chmod +x /opt/micromamba/envs/gutbusters/bin/gnmd
+
+cat >/opt/micromamba/envs/gutbusters/bin/dvf <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+PY=/opt/micromamba/envs/dvf/bin/python
+SRC=/opt/gutbusters/tools/DeepVirFinder/dvf.py
+
+# Prefer node-local tmp if available (avoids Lustre lock issues)
+BASE_CACHE="${TMPDIR:-${GB_OUTDIR:-/tmp}}"
+RUN_TAG="$(openssl rand -hex 15)"
+
+CACHE_ROOT="$BASE_CACHE/.gutbusters_dvf_cache_$RUN_TAG"
+mkdir -p "$CACHE_ROOT"/{theano,tmp}
+
+chmod -R 777 "$CACHE_ROOT" 2>/dev/null || true
+
+export THEANO_FLAGS="base_compiledir=$CACHE_ROOT/theano"
+export TMPDIR="$CACHE_ROOT/tmp"
+export HOME="$CACHE_ROOT"
+
+exec "$PY" "$SRC" -m /opt/gutbusters/tools/DeepVirFinder/models "$@"
+EOF
+chmod +x /opt/micromamba/envs/gutbusters/bin/dvf
+
+	# ---- shrink image (software only; never touches the baked /opt/gutbusters/db) ----
+	$MM clean -a -y || true
+	find /opt/micromamba -type d -name "__pycache__" -prune -exec rm -rf {} +
+	find /opt/micromamba -type f -name "*.pyc" -delete
+	rm -rf /root/.cache /root/.cache/pip /opt/micromamba/pkgs /opt/micromamba/tmp
+
+%files
+	entrypoint/gutbusters           /opt/gutbusters/entrypoint/gutbusters
+	pipelines                       /opt/gutbusters/pipelines
+	scripts                         /opt/gutbusters/scripts
+	# Only the small stock tool source travels in the image; their model weights are
+	# baked separately below. tools/PhageBoost/calc_features.py is NOT copied — that
+	# patch exists only to keep the retired PhageBoost from crashing.
+	tools/DeepVirFinder/dvf.py      /opt/gutbusters/tools/DeepVirFinder/dvf.py
+	tools/DeepVirFinder/encode.py   /opt/gutbusters/tools/DeepVirFinder/encode.py
+	tools/MetaPhaPred/predict.py    /opt/gutbusters/tools/MetaPhaPred/predict.py
+	tools/MetaPhaPred/dict.npy      /opt/gutbusters/tools/MetaPhaPred/dict.npy
+
+	# --- Databases + model weights baked in (self-contained; NO runtime bind). ---
+	# %files is copied before %post, so these are present for the model symlinks and
+	# the baked-DB check. Absolute host source paths — the build host must have them
+	# populated (build on SUN; see the size note at the top).
+	#
+	# This list is run.sh's `_dbs` MINUS kraken2/HRGMv2, plus geNomad's separately-bound
+	# DB. Anything not listed is not needed by the shipped 3-stage pipeline.
+	#
+	# ⚠️ kraken2/HRGMv2 is intentionally absent — 19 GB, optional, and the only DB the
+	# pipeline can run without. It is bind-mounted at /opt/gutbusters/db/kraken2/HRGMv2
+	# (mount point created in %post) or skipped with GB_KRAKEN=0. See the header.
+	/data/containers/dbs/checkv_db/checkv-db-v1.5   /opt/gutbusters/db/checkv_db/checkv-db-v1.5
+	/data/containers/dbs/deepvirfinder/models       /opt/gutbusters/db/deepvirfinder/models
+	/data/containers/dbs/metaphapred/model          /opt/gutbusters/db/metaphapred/model
+	/data/containers/dbs/stack4                     /opt/gutbusters/db/stack4
+	/data/containers/dbs/vcontrast                  /opt/gutbusters/db/vcontrast
+	# ⚠️ PHROGs (1.3 GB) DELIBERATELY NOT BAKED, since 2026-08-13. The stack158 admission model
+	# reads none of its 15 columns, and 5_eval.sh gates the pass behind GB_PHROGS (default 0), so
+	# baking the .h3m would add 1.3 GB for a stage that never runs. The pyhmmer env IS still
+	# installed in %post, so GB_PHROGS=1 works in this image against a bind-mounted PHROGs DB --
+	# which is how the published PHROGs baseline arm stays reproducible.
+	# geNomad's DB is shared with qo-analysis-mge in the bind-mounted image; here it is
+	# copied in from that same location.
+	/data/containers/qo-analysis-mge/refs/genomad_db /opt/gutbusters/genomad_db
+
+%runscript
+	exec /opt/gutbusters/entrypoint/gutbusters "$@"

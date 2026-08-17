@@ -1,0 +1,15 @@
+tool	auc_vlp_label	auc_hq_label	delta
+QOV	0.6723	0.9671	0.2947
+CheckV viral fraction	0.5707	0.9314	0.3607
+Viral-vs-cellular contrast	0.6	0.9208	0.3208
+MetaPhaPred	0.6048	0.9033	0.2985
+PPR-Meta (WTP)	0.6238	0.89	0.2662
+DeepVirFinder (WTP)	0.5819	0.8581	0.2762
+geNomad (virus score)	0.5383	0.8561	0.3178
+VirFinder (WTP)	0.5652	0.7971	0.2319
+geNomad marker enrichment	0.5123	0.7617	0.2495
+MetaPhinder (WTP)	0.5612	0.6586	0.0974
+Seeker (WTP)	0.4052	0.5917	0.1865
+PHROGs best bitscore	0.5309	0.5791	0.0482
+MetaPhinder (own DB) (WTP)	0.59	0.5381	-0.0519
+DeepVirFinder (PCA feature, as used)	0.6402	0.3841	-0.2561

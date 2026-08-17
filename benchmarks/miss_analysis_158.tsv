@@ -1,0 +1,61 @@
+collection	analysis	stratum	n	frac	descriptor	model_reads	med_admitted	med_newly	med_always	cliffs_delta	ci_lo	ci_hi	decile	len_min	len_max	recall	mean	sd	min	max	n_groups
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	stratum_size	ADMITTED	979.0	0.6668937329700273																	
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	stratum_size	NEWLY_MISSED	274.0	0.18664850136239783																	
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	stratum_size	ALWAYS_MISSED	215.0	0.14645776566757493																	
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				length	False	3117.0	2602.0	2615.0	0.24265862175451947	0.17004140234831802	0.32401444954794684									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				n_genes	False	5.0	4.0	3.0	0.43671520535905173	0.3625922536338946	0.5074338238881314									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				coding_density	True	0.955199	0.8955685	0.881463	0.37860655153573886	0.27879409182967463	0.4667678586724239									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				dark_frac	True	0.333333	0.5	0.5	-0.3772430339454118	-0.5315846321175516	-0.21616003966306724									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				ckv_aai_completeness	True	6.07554009322807	4.659919535264966	4.856451894628384	0.2469300825179559	0.13309543365579332	0.37517637907188217									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				ckv_viral_frac	True	0.666667	0.5	0.333333	0.869976482884766	0.8219839380946142	0.911857481904781									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				ckv_gene_count	True	5.0	4.0	3.0	0.43671520535905173	0.3625922536338946	0.5074338238881314									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				n_virus_hallmarks	True	0.0	0.0	0.0	0.23664394137349465	0.20420964353295748	0.27576968373096544									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				gn_virus	True	0.8304	0.28869999999999996	0.1749	0.87598166140105	0.8302173464316356	0.914970596005811									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				excised	False	0.0	0.0	0.0	0.03166496424923393	0.019186492709132752	0.046729640793322286									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				n_fragments	False	1.0	1.0	1.0	0.0	0.0	0.0									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				phrog_struct_frac	False	0.0	0.0	0.0	0.4293560111171817	0.38803323074861856	0.4734874196343778									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				phrog_hit_frac	False	0.6666666666666666	0.5	0.4615384615384615	0.3686676010166994	0.2664691193561179	0.491519628912985									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				phrog_known_frac	False	0.3636363636363636	0.3333333333333333	0.125	0.3539349597358483	0.2642568224157637	0.43565812527240116									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				cat_head	False	0.0	0.0	0.0	0.2719528707508849	0.23991199710126726	0.31002493717988194									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				cat_tail	False	0.0	0.0	0.0	0.21482290899589063	0.18558329664327386	0.24667663702696668									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	descriptor				cat_dna	False	0.0	0.0	0.0	0.17374634772074016	0.1322900173222866	0.20839638906860053									
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										1.0	2001.0	2106.0	0.46938775510204084					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										2.0	2107.0	2263.0	0.6326530612244898					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										3.0	2265.0	2415.0	0.6122448979591837					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		146.0										4.0	2416.0	2607.0	0.6301369863013698					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										5.0	2608.0	2861.0	0.6190476190476191					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										6.0	2862.0	3236.0	0.54421768707483					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		146.0										7.0	3239.0	3803.0	0.7808219178082192					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										8.0	3804.0	4765.0	0.7346938775510204					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										9.0	4776.0	7088.0	0.7619047619047619					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	recall_by_length_decile		147.0										10.0	7117.0	72085.0	0.8843537414965986					
+SHKOPOROV y_hq (real bulk assemblies, transfer, prev 0.030)	per_group_recall_spread																0.6492433283292701	0.08762198692748464	0.45535714285714285	0.7788018433179723	10.0
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	stratum_size	ADMITTED	1200.0	0.411522633744856																	
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	stratum_size	NEWLY_MISSED	730.0	0.2503429355281207																	
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	stratum_size	ALWAYS_MISSED	986.0	0.3381344307270233																	
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				length	False	3477.0	2834.0	2804.5	0.2730561189993237	0.22986110874630444	0.3130543050138395									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				n_genes	False	5.0	4.0	3.0	0.43792934415145357	0.3967709243389001	0.4761729873662664									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				coding_density	True	0.9439420000000001	0.885247	0.87879	0.3756338742393508	0.33304224246668	0.4178640908951019									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				dark_frac	True	0.333333	0.5	0.5	-0.32493999323867473	-0.3674203351195797	-0.2788106898192366									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				ckv_aai_completeness	True	6.679205214605155	5.2029835624770975	4.484379980014152	0.3557911818058419	0.30058403232179437	0.40399647050484405									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				ckv_viral_frac	True	0.6666666666666666	0.5	0.3333333333333333	0.8614359364435429	0.8455299135016803	0.8782169702713059									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				ckv_gene_count	True	5.0	4.0	3.0	0.43792934415145357	0.3967709243389001	0.4761729873662664									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				n_virus_hallmarks	True	0.0	0.0	0.0	0.3173630831643002	0.2947085501154396	0.33875366870760104									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				gn_virus	True	0.8472	0.24275000000000002	0.1752	0.8697261663286004	0.8469985179631792	0.8916580027321941									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				phrog_struct_frac	False	0.040833333333333305	0.0	0.0	0.4835480054090604	0.44737836183723306	0.5179492317565159									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				phrog_hit_frac	False	0.6666666666666666	0.5	0.4	0.42268340094658563	0.3746824992878842	0.47343875471800073									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				phrog_known_frac	False	0.4	0.3333333333333333	0.1666666666666666	0.39468137254901947	0.35155516058584163	0.4380811718334239									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				cat_head	False	0.0	0.0	0.0	0.3221737660581474	0.2895710939325859	0.3523438308077648									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				cat_tail	False	0.0	0.0	0.0	0.27347701149425285	0.23783110580539565	0.3066472520266967									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	descriptor				cat_dna	False	0.0	0.0	0.0	0.16016142663962118	0.12668807563651205	0.19485054621244152									
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		295.0										1.0	2000.0	2140.0	0.30847457627118646					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		289.0										2.0	2141.0	2283.0	0.314878892733564					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		292.0										3.0	2284.0	2467.0	0.3253424657534247					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		291.0										4.0	2468.0	2704.0	0.35051546391752575					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		291.0										5.0	2708.0	2979.0	0.33676975945017185					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		292.0										6.0	2980.0	3376.0	0.3424657534246575					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		291.0										7.0	3378.0	4015.0	0.4329896907216495					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		292.0										8.0	4021.0	5111.0	0.4178082191780822					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		291.0										9.0	5115.0	8193.0	0.5395189003436426					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	recall_by_length_decile		292.0										10.0	8195.0	97228.0	0.7465753424657534					
+CHGV (45 donors, OUT-OF-FOLD, prev 0.196)	per_group_recall_spread																0.4071765688835705	0.07624428562684442	0.175	0.5416666666666666	45.0
